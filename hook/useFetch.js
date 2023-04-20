@@ -30,8 +30,15 @@ const useFetch = (endpoint, query) => {
             setData(response.data.data);
             setIsLoading(false);
         } catch (error) {
-            setError(error);
-            alert('There is an error');
+            
+            if (error.response.status === 429) {
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+                fetchData();
+            } else {
+                setError(error);
+                alert(`${error}`);
+            }
+
         } finally {
             setIsLoading(false);
         }
@@ -39,7 +46,7 @@ const useFetch = (endpoint, query) => {
 
     useEffect(() => {
         fetchData();
-    }, [])
+    }, []);
 
     const refetch = () => {
         setIsLoading(true);
