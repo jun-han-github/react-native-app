@@ -21,30 +21,30 @@ const useFetch = (endpoint, query) => {
         }
     };
 
-    const fetchData = async () => {
-        setIsLoading(true);
-
-        try {
-            const response = await axios.request(options);
-
-            setData(response.data.data);
-            setIsLoading(false);
-        } catch (error) {
-            
-            if (error.response.status === 429) {
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-                fetchData();
-            } else {
-                setError(error);
-                alert(`${error}`);
-            }
-
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
     useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+    
+            try {
+                const response = await axios.request(options);
+    
+                setData(response.data.data);
+                setIsLoading(false);
+            } catch (error) {
+                
+                if (error.response.status === 429) {
+                    await new Promise((resolve) => setTimeout(resolve, 2000));
+                    fetchData();
+                } else {
+                    setError(error);
+                    alert(`${error}`);
+                }
+    
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
         fetchData();
     }, []);
 
