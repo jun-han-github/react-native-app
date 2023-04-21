@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import { useRouter } from 'expo-router'
 import styles from './popularjobs.style'
@@ -8,7 +8,7 @@ import useFetch from '../../../hook/useFetch'
 
 
 const Popularjobs = () => {
-  
+
   const { data, isLoading, error } = useFetch('search', {
     query: 'Software developer',
     num_pages: 1
@@ -50,6 +50,7 @@ const Popularjobs = () => {
               keyExtractor={item => item?.job_id}
               contentContainerStyle={{ columnGap: SIZES.medium }}
               horizontal
+              showsHorizontalScrollIndicator={false}
             />
           )
         }
