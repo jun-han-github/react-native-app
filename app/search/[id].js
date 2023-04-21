@@ -8,6 +8,7 @@ import { ScreenHeaderBtn, NearbyJobCard } from '../../components'
 import { COLORS, icons, SIZES } from '../../constants'
 import styles from '../../styles/search'
 import { RAPID_API_KEY } from "@env";
+import useFetch from '../../hook/useFetch'
 
 const JobSearch = () => {
     const params = useSearchParams();
@@ -18,33 +19,20 @@ const JobSearch = () => {
     const [searchError, setSearchError] = useState(null);
     const [page, setPage] = useState(1);
 
-    const handleSearch = async () => {
-        setSearchLoader(true);
-        setSearchResult([])
+    const { data, isLoading, error } = useFetch('search', {
+        query: params.id,
+        page: page.toString(),
+    });
 
-        try {
-            const options = {
-                method: "GET",
-                url: `https://jsearch.p.rapidapi.com/search`,
-                headers: {
-                    "X-RapidAPI-Key": RAPID_API_KEY,
-                    "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
-                },
-                params: {
-                    query: params.id,
-                    page: page.toString(),
-                },
-            };
+    useEffect(() => {
+        setSearchLoader(isLoading);
+        setSearchResult(data);
+        setSearchError(error);
+    }, [isLoading, data, error]);
 
-            const response = await axios.request(options);
-            setSearchResult(response.data.data);
-        } catch (error) {
-            setSearchError(error);
-            console.log(error);
-        } finally {
-            setSearchLoader(false);
-        }
-    };
+    const handleSearch = () => {
+        setPage(page + 1);
+    }
 
     const handlePagination = (direction) => {
         if (direction === 'left' && page > 1) {
@@ -55,10 +43,6 @@ const JobSearch = () => {
             handleSearch()
         }
     }
-
-    useEffect(() => {
-        handleSearch()
-    }, [])
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
