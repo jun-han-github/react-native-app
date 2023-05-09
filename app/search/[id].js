@@ -8,6 +8,7 @@ import { ScreenHeaderBtn, NearbyJobCard } from '../../components'
 import { COLORS, icons, SIZES } from '../../constants'
 import styles from '../../styles/search'
 import { RAPID_API_KEY } from "@env";
+import * as data from '../../data/job-details'
 
 const JobSearch = () => {
     const params = useSearchParams();
@@ -23,20 +24,22 @@ const JobSearch = () => {
         setSearchResult([])
 
         try {
-            const options = {
-                method: "GET",
-                url: `https://jsearch.p.rapidapi.com/search`,
-                headers: {
-                    "X-RapidAPI-Key": RAPID_API_KEY,
-                    "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
-                },
-                params: {
-                    query: params.id,
-                    page: page.toString(),
-                },
-            };
+            // const options = {
+            //     method: "GET",
+            //     url: `https://jsearch.p.rapidapi.com/search`,
+            //     headers: {
+            //         "X-RapidAPI-Key": RAPID_API_KEY,
+            //         "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
+            //     },
+            //     params: {
+            //         query: params.id,
+            //         page: page.toString(),
+            //     },
+            // };
 
-            const response = await axios.request(options);
+            // const response = await axios.request(options);
+            const response = data;
+            console.log('data:', data)
             setSearchResult(response.data.data);
         } catch (error) {
             setSearchError(error);
