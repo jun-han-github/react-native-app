@@ -5,7 +5,7 @@ import styles from './welcome.style'
 import { icons, SIZES } from '../../../constants'
 import { useRouter } from 'expo-router';
 
-const jobTypes = ["Full-time", "Part-Time", "Contractor"];
+const jobTypes = ["Full-time", "Part-Time", "Contractor", "Internship"];
 
 const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
 
@@ -21,7 +21,7 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
 
       <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
-          <TextInput 
+          <TextInput
             style={styles.searchInput}
             value={searchTerm}
             onChangeText={(text) => { setSearchTerm(text) }}
@@ -30,7 +30,7 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
         </View>
 
         <TouchableOpacity
-          style={styles.searchBtn} 
+          style={styles.searchBtn}
           onPress={handleClick}
         >
           <Image
@@ -58,6 +58,7 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
           keyExtractor={item => item}
           contentContainerStyle={{ columnGap: SIZES.small }}
           horizontal
+          showsHorizontalScrollIndicator={false}
         />
       </View>
     </View>
